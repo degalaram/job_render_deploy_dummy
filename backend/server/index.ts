@@ -1,13 +1,14 @@
 import express, { type Request, Response, NextFunction } from "express";
-import { registerRoutes } from "./routes";
+import { registerRoutes } from "./routes.js";
 
 const app = express();
 
-// CORS configuration for Render deployment
+// CORS configuration for production deployment
 app.use((req, res, next) => {
   const allowedOrigins = [
     'http://localhost:3000',
     'http://localhost:5173',
+    'http://localhost:5000',
     process.env.FRONTEND_URL
   ];
   
@@ -71,7 +72,7 @@ app.use((req, res, next) => {
     throw err;
   });
 
-  // Health check endpoint for Render
+  // Health check endpoint
   app.get("/api/health", (req, res) => {
     res.status(200).json({ 
       status: "ok", 
