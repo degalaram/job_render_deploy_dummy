@@ -1,5 +1,5 @@
-import type { Express } from "express";
-import { createServer, type Server } from "http";
+import express from "express";
+import { createServer } from "http";
 import { storage } from "./storage.js";
 import {
   insertUserSchema,
@@ -11,18 +11,15 @@ import {
   loginSchema
 } from "../shared/schema.js";
 
-export async function registerRoutes(app: Express): Promise<Server> {
+export async function registerRoutes(app: express.Express) {
   // Auth routes
   app.post("/api/auth/register", async (req, res) => {
     try {
       const validatedData = insertUserSchema.parse(req.body);
-
-      // Check if user already exists
       const existingUser = await storage.getUserByEmail(validatedData.email);
       if (existingUser) {
         return res.status(400).json({ message: "User already exists with this email" });
       }
-
       const user = await storage.createUser(validatedData);
       const { password, ...userWithoutPassword } = user;
       res.json(userWithoutPassword);
@@ -36,55 +33,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const validatedData = loginSchema.parse(req.body);
       const user = await storage.validateUser(validatedData.email, validatedData.password);
-
       if (!user) {
         return res.status(401).json({ message: "Wrong username or wrong password" });
       }
-
       const { password, ...userWithoutPassword } = user;
       res.json(userWithoutPassword);
     } catch (error) {
       console.error("Error logging in user:", error);
       res.status(500).json({ message: "Failed to login" });
-    }
-  });
-
-  // User profile routes
-  app.patch("/api/users/:id", async (req, res) => {
-    try {
-      const userId = req.params.id;
-      const updateData = req.body;
-
-      // Handle password update separately
-      if (updateData.currentPassword && updateData.newPassword) {
-        const user = await storage.getUserById(userId);
-        if (!user) {
-          return res.status(404).json({ message: "User not found" });
-        }
-
-        const bcrypt = await import('bcryptjs');
-        const isValidPassword = await bcrypt.compare(updateData.currentPassword, user.password);
-        if (!isValidPassword) {
-          return res.status(400).json({ message: "Current password is incorrect" });
-        }
-
-        const hashedPassword = await bcrypt.hash(updateData.newPassword, 12);
-        updateData.password = hashedPassword;
-        delete updateData.currentPassword;
-        delete updateData.newPassword;
-      }
-
-      const updatedUser = await storage.updateUser(userId, updateData);
-      if (!updatedUser) {
-        return res.status(404).json({ message: "User not found" });
-      }
-
-      // Remove password from response
-      const { password, ...userWithoutPassword } = updatedUser;
-      res.json(userWithoutPassword);
-    } catch (error) {
-      console.error("Error updating user:", error);
-      res.status(500).json({ message: "Failed to update user" });
     }
   });
 
@@ -114,17 +70,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error fetching job:", error);
       res.status(500).json({ message: "Failed to fetch job" });
-    }
-  });
-
-  app.post("/api/jobs", async (req, res) => {
-    try {
-      const validatedData = insertJobSchema.parse(req.body);
-      const job = await storage.createJob(validatedData);
-      res.json(job);
-    } catch (error) {
-      console.error("Error creating job:", error);
-      res.status(500).json({ message: "Failed to create job" });
     }
   });
 
