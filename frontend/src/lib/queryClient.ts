@@ -1,6 +1,6 @@
 import { QueryClient, QueryFunction } from "@tanstack/react-query";
 
-// API Base URL configuration
+// API Base URL configuration - CORRECTED
 const getApiBaseUrl = () => {
   // Check for environment variable first
   const apiUrl = import.meta.env.VITE_API_URL;
@@ -8,20 +8,28 @@ const getApiBaseUrl = () => {
     return apiUrl;
   }
 
-  // In development, use relative URLs (same server)
+  // Check if we're in production mode
+  const isProduction = import.meta.env.MODE === 'production';
+  
   if (typeof window !== 'undefined') {
     const hostname = window.location.hostname;
     
-    // If deployed on separate platforms, point to backend
-    if (hostname.includes('onrender.com') || hostname.includes('vercel.app') || hostname.includes('netlify.app')) {
-      // This will be your Render backend URL (you'll get this after deployment)
-      return process.env.NODE_ENV === 'production' 
+    // If deployed on Render, point to backend
+    if (hostname.includes('onrender.com')) {
+      return isProduction 
+        ? 'https://job-render-deploy-dummy-1.onrender.com' 
+        : 'http://localhost:10000';
+    }
+    
+    // For other deployments
+    if (hostname.includes('vercel.app') || hostname.includes('netlify.app')) {
+      return isProduction 
         ? 'https://job-render-deploy-dummy-1.onrender.com' 
         : 'http://localhost:10000';
     }
   }
   
-  // For local development and same-server deployments
+  // For local development - same server
   return '';
 };
 
@@ -37,7 +45,11 @@ export async function apiRequest(
   url: string,
   data?: unknown | undefined,
 ): Promise<Response> {
-  const fullUrl = getApiBaseUrl() + url;
+  const baseUrl = getApiBaseUrl();
+  const fullUrl = baseUrl + url;
+  
+  console.log(`API Request: ${method} ${fullUrl}`); // Debug log
+  
   const res = await fetch(fullUrl, {
     method,
     headers: data ? { "Content-Type": "application/json" } : {},
@@ -55,7 +67,9 @@ export const getQueryFn: <T>(options: {
 }) => QueryFunction<T> =
   ({ on401: unauthorizedBehavior }) =>
   async ({ queryKey }) => {
-    const url = getApiBaseUrl() + queryKey.join("/");
+    const baseUrl = getApiBaseUrl();
+    const url = baseUrl + "/" + queryKey.join("/");
+    
     const res = await fetch(url, {
       credentials: "include",
     });
