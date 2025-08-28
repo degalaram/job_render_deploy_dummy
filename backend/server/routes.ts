@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import { createServer } from "http";
 import { storage } from "./storage.js";
 import {
@@ -13,7 +13,7 @@ import {
 
 export async function registerRoutes(app: express.Express) {
   // Auth routes
-  app.post("/api/auth/register", async (req, res) => {
+  app.post("/api/auth/register", async (req: Request, res: Response) => {
     try {
       const validatedData = insertUserSchema.parse(req.body);
       const existingUser = await storage.getUserByEmail(validatedData.email);
@@ -29,7 +29,7 @@ export async function registerRoutes(app: express.Express) {
     }
   });
 
-  app.post("/api/auth/login", async (req, res) => {
+  app.post("/api/auth/login", async (req: Request, res: Response) => {
     try {
       const validatedData = loginSchema.parse(req.body);
       const user = await storage.validateUser(validatedData.email, validatedData.password);
@@ -45,7 +45,7 @@ export async function registerRoutes(app: express.Express) {
   });
 
   // Jobs routes
-  app.get("/api/jobs", async (req, res) => {
+  app.get("/api/jobs", async (req: Request, res: Response) => {
     try {
       const { experienceLevel, location, search } = req.query;
       const jobs = await storage.getJobs({
@@ -60,7 +60,7 @@ export async function registerRoutes(app: express.Express) {
     }
   });
 
-  app.get("/api/jobs/:id", async (req, res) => {
+  app.get("/api/jobs/:id", async (req: Request, res: Response) => {
     try {
       const job = await storage.getJob(req.params.id);
       if (!job) {
@@ -74,7 +74,7 @@ export async function registerRoutes(app: express.Express) {
   });
 
   // Applications routes
-  app.post("/api/applications", async (req, res) => {
+  app.post("/api/applications", async (req: Request, res: Response) => {
     try {
       const validatedData = insertApplicationSchema.parse(req.body);
       const application = await storage.createApplication(validatedData);
@@ -85,7 +85,7 @@ export async function registerRoutes(app: express.Express) {
     }
   });
 
-  app.get("/api/applications/user/:userId", async (req, res) => {
+  app.get("/api/applications/user/:userId", async (req: Request, res: Response) => {
     try {
       const applications = await storage.getUserApplications(req.params.userId);
       res.json(applications);
@@ -96,7 +96,7 @@ export async function registerRoutes(app: express.Express) {
   });
 
   // Courses routes
-  app.get("/api/courses", async (req, res) => {
+  app.get("/api/courses", async (req: Request, res: Response) => {
     try {
       const { category } = req.query;
       const courses = await storage.getCourses(category as string);
@@ -107,7 +107,7 @@ export async function registerRoutes(app: express.Express) {
     }
   });
 
-  app.get("/api/courses/:id", async (req, res) => {
+  app.get("/api/courses/:id", async (req: Request, res: Response) => {
     try {
       const course = await storage.getCourse(req.params.id);
       if (!course) {
@@ -121,7 +121,7 @@ export async function registerRoutes(app: express.Express) {
   });
 
   // Companies routes
-  app.get("/api/companies", async (req, res) => {
+  app.get("/api/companies", async (req: Request, res: Response) => {
     try {
       const companies = await storage.getCompanies();
       res.json(companies);
@@ -131,7 +131,7 @@ export async function registerRoutes(app: express.Express) {
     }
   });
 
-  app.get("/api/companies/:id", async (req, res) => {
+  app.get("/api/companies/:id", async (req: Request, res: Response) => {
     try {
       const company = await storage.getCompany(req.params.id);
       if (!company) {
@@ -145,7 +145,7 @@ export async function registerRoutes(app: express.Express) {
   });
 
   // Contact routes
-  app.post("/api/contact", async (req, res) => {
+  app.post("/api/contact", async (req: Request, res: Response) => {
     try {
       const validatedData = insertContactSchema.parse(req.body);
       const contact = await storage.createContact(validatedData);
