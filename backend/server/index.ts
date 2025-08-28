@@ -3,12 +3,24 @@ import { registerRoutes } from "./routes.js";
 
 const app = express();
 
-// CORS configuration
+// CORS configuration - CORRECTED FOR PRODUCTION
+const allowedOrigins = [
+  'https://job-render-deploy-dummy-2.onrender.com',
+  'http://localhost:5173',
+  'http://localhost:3000'
+];
+
 app.use((req: Request, res: Response, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
+  const origin = req.headers.origin;
+  
+  if (allowedOrigins.includes(origin as string)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
+  
+  res.header('Access-Control-Allow-Credentials', 'true');
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-  
+
   if (req.method === 'OPTIONS') {
     res.sendStatus(200);
   } else {
@@ -23,16 +35,16 @@ app.use(express.urlencoded({ extended: false }));
   const server = await registerRoutes(app);
 
   app.get("/api/health", (req: Request, res: Response) => {
-    res.status(200).json({ 
-      status: "ok", 
+    res.status(200).json({
+      status: "ok",
       timestamp: new Date().toISOString(),
       service: "JobPortal Backend API"
     });
   });
 
   app.get("/", (req: Request, res: Response) => {
-    res.json({ 
-      message: "JobPortal Backend API", 
+    res.json({
+      message: "JobPortal Backend API",
       version: "1.0.0",
       status: "running"
     });
@@ -41,5 +53,6 @@ app.use(express.urlencoded({ extended: false }));
   const port = parseInt(process.env.PORT || '10000', 10);
   server.listen(port, '0.0.0.0', () => {
     console.log(`Backend server running on port ${port}`);
+    console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
   });
 })();
