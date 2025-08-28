@@ -18,9 +18,11 @@ import {
   Shield,
   Bug,
   Settings,
-  Building
+  Building,
+  Terminal
 } from 'lucide-react';
-import type { Course } from '@shared/schema';
+import { FaPython, FaJava, FaJs, FaReact, FaAngular, FaDocker, FaAws } from 'react-icons/fa';
+import { SiKubernetes, SiDjango, SiSelenium, SiCypress, SiJira, SiSap, SiHtml5 } from 'react-icons/si';
 
 export default function Courses() {
   const [, navigate] = useLocation();
@@ -35,7 +37,7 @@ export default function Courses() {
     }
   }, [navigate]);
 
-  const { data: courses = [], isLoading } = useQuery({
+  const { isLoading } = useQuery({
     queryKey: ['/api/courses'],
   });
 
@@ -52,34 +54,34 @@ export default function Courses() {
   // Create free courses with new categories
   const freeCourses = [
     // Frontend Courses
-    { id: 'html-css', title: 'Complete HTML & CSS Course', description: 'Learn HTML and CSS from scratch. Build responsive websites and understand web fundamentals.', instructor: 'GeeksforGeeks', duration: '6 weeks', level: 'beginner', category: 'frontend', imageUrl: '/images/html-course.jpg', courseUrl: 'https://www.geeksforgeeks.org/html-tutorial/', price: 'Free', createdAt: new Date().toISOString() },
-    { id: 'javascript', title: 'JavaScript Fundamentals', description: 'Learn JavaScript programming language and build interactive web applications.', instructor: 'GeeksforGeeks', duration: '10 weeks', level: 'intermediate', category: 'frontend', imageUrl: '/images/js-course.jpg', courseUrl: 'https://www.geeksforgeeks.org/javascript/', price: 'Free', createdAt: new Date().toISOString() },
-    { id: 'react', title: 'React.js Development', description: 'Build modern web applications with React.js. Learn components, hooks, and state management.', instructor: 'GeeksforGeeks', duration: '12 weeks', level: 'intermediate', category: 'frontend', imageUrl: '/images/react-course.jpg', courseUrl: 'https://www.geeksforgeeks.org/react-tutorial/', price: 'Free', createdAt: new Date().toISOString() },
-    { id: 'angular', title: 'Angular Complete Guide', description: 'Master Angular framework for building dynamic single-page applications.', instructor: 'GeeksforGeeks', duration: '14 weeks', level: 'intermediate', category: 'frontend', imageUrl: '/images/angular-course.jpg', courseUrl: 'https://www.geeksforgeeks.org/angular-tutorial/', price: 'Free', createdAt: new Date().toISOString() },
+    { id: 'html-css', title: 'Complete HTML & CSS Course', description: 'Learn HTML and CSS from scratch. Build responsive websites and understand web fundamentals.', instructor: 'GeeksforGeeks', duration: '6 weeks', level: 'beginner', category: 'frontend', icon: 'html', courseUrl: 'https://www.geeksforgeeks.org/html-tutorial/', price: 'Free', createdAt: new Date().toISOString() },
+    { id: 'javascript', title: 'JavaScript Fundamentals', description: 'Learn JavaScript programming language and build interactive web applications.', instructor: 'GeeksforGeeks', duration: '10 weeks', level: 'intermediate', category: 'frontend', icon: 'javascript', courseUrl: 'https://www.geeksforgeeks.org/javascript/', price: 'Free', createdAt: new Date().toISOString() },
+    { id: 'react', title: 'React.js Development', description: 'Build modern web applications with React.js. Learn components, hooks, and state management.', instructor: 'GeeksforGeeks', duration: '12 weeks', level: 'intermediate', category: 'frontend', icon: 'react', courseUrl: 'https://www.geeksforgeeks.org/react-tutorial/', price: 'Free', createdAt: new Date().toISOString() },
+    { id: 'angular', title: 'Angular Complete Guide', description: 'Master Angular framework for building dynamic single-page applications.', instructor: 'GeeksforGeeks', duration: '14 weeks', level: 'intermediate', category: 'frontend', icon: 'angular', courseUrl: 'https://www.geeksforgeeks.org/angular-tutorial/', price: 'Free', createdAt: new Date().toISOString() },
     
     // Backend Courses
-    { id: 'python', title: 'Python Programming for Beginners', description: 'Master Python programming from basics to advanced concepts. Perfect for beginners and job seekers.', instructor: 'GeeksforGeeks', duration: '8 weeks', level: 'beginner', category: 'backend', imageUrl: '/images/python-course.jpg', courseUrl: 'https://www.geeksforgeeks.org/python-programming-language/', price: 'Free', createdAt: new Date().toISOString() },
-    { id: 'java', title: 'Java Complete Bootcamp', description: 'Learn Java programming language with object-oriented programming concepts.', instructor: 'GeeksforGeeks', duration: '10 weeks', level: 'beginner', category: 'backend', imageUrl: '/images/java-course.jpg', courseUrl: 'https://www.geeksforgeeks.org/java/', price: 'Free', createdAt: new Date().toISOString() },
-    { id: 'nodejs', title: 'Node.js Backend Development', description: 'Build scalable backend applications using Node.js, Express.js, and MongoDB.', instructor: 'GeeksforGeeks', duration: '12 weeks', level: 'intermediate', category: 'backend', imageUrl: '/images/nodejs-course.jpg', courseUrl: 'https://www.geeksforgeeks.org/nodejs/', price: 'Free', createdAt: new Date().toISOString() },
-    { id: 'django', title: 'Django Web Framework', description: 'Create powerful web applications using Django Python framework.', instructor: 'GeeksforGeeks', duration: '10 weeks', level: 'intermediate', category: 'backend', imageUrl: '/images/django-course.jpg', courseUrl: 'https://www.geeksforgeeks.org/django-tutorial/', price: 'Free', createdAt: new Date().toISOString() },
+    { id: 'python', title: 'Python Programming for Beginners', description: 'Master Python programming from basics to advanced concepts. Perfect for beginners and job seekers.', instructor: 'GeeksforGeeks', duration: '8 weeks', level: 'beginner', category: 'backend', icon: 'python', courseUrl: 'https://www.geeksforgeeks.org/python-programming-language/', price: 'Free', createdAt: new Date().toISOString() },
+    { id: 'java', title: 'Java Complete Bootcamp', description: 'Learn Java programming language with object-oriented programming concepts.', instructor: 'GeeksforGeeks', duration: '10 weeks', level: 'beginner', category: 'backend', icon: 'java', courseUrl: 'https://www.geeksforgeeks.org/java/', price: 'Free', createdAt: new Date().toISOString() },
+    { id: 'nodejs', title: 'Node.js Backend Development', description: 'Build scalable backend applications using Node.js, Express.js, and MongoDB.', instructor: 'GeeksforGeeks', duration: '12 weeks', level: 'intermediate', category: 'backend', icon: 'nodejs', courseUrl: 'https://www.geeksforgeeks.org/nodejs/', price: 'Free', createdAt: new Date().toISOString() },
+    { id: 'django', title: 'Django Web Framework', description: 'Create powerful web applications using Django Python framework.', instructor: 'GeeksforGeeks', duration: '10 weeks', level: 'intermediate', category: 'backend', icon: 'django', courseUrl: 'https://www.geeksforgeeks.org/django-tutorial/', price: 'Free', createdAt: new Date().toISOString() },
     
     // Testing Courses
-    { id: 'selenium', title: 'Selenium Automation Testing', description: 'Learn automated testing with Selenium WebDriver for web applications.', instructor: 'GeeksforGeeks', duration: '8 weeks', level: 'intermediate', category: 'testing', imageUrl: '/images/selenium-course.jpg', courseUrl: 'https://www.geeksforgeeks.org/selenium-python-tutorial/', price: 'Free', createdAt: new Date().toISOString() },
-    { id: 'jira', title: 'JIRA for Project Management', description: 'Master JIRA for bug tracking, project management, and agile workflows.', instructor: 'GeeksforGeeks', duration: '4 weeks', level: 'beginner', category: 'testing', imageUrl: '/images/jira-course.jpg', courseUrl: 'https://www.geeksforgeeks.org/what-is-jira-tool/', price: 'Free', createdAt: new Date().toISOString() },
-    { id: 'cypress', title: 'Cypress End-to-End Testing', description: 'Modern testing framework for web applications with real-time browser testing.', instructor: 'GeeksforGeeks', duration: '6 weeks', level: 'intermediate', category: 'testing', imageUrl: '/images/cypress-course.jpg', courseUrl: 'https://www.geeksforgeeks.org/cypress-tutorial/', price: 'Free', createdAt: new Date().toISOString() },
+    { id: 'selenium', title: 'Selenium Automation Testing', description: 'Learn automated testing with Selenium WebDriver for web applications.', instructor: 'GeeksforGeeks', duration: '8 weeks', level: 'intermediate', category: 'testing', icon: 'selenium', courseUrl: 'https://www.geeksforgeeks.org/selenium-python-tutorial/', price: 'Free', createdAt: new Date().toISOString() },
+    { id: 'jira', title: 'JIRA for Project Management', description: 'Master JIRA for bug tracking, project management, and agile workflows.', instructor: 'GeeksforGeeks', duration: '4 weeks', level: 'beginner', category: 'testing', icon: 'jira', courseUrl: 'https://www.geeksforgeeks.org/what-is-jira-tool/', price: 'Free', createdAt: new Date().toISOString() },
+    { id: 'cypress', title: 'Cypress End-to-End Testing', description: 'Modern testing framework for web applications with real-time browser testing.', instructor: 'GeeksforGeeks', duration: '6 weeks', level: 'intermediate', category: 'testing', icon: 'cypress', courseUrl: 'https://www.geeksforgeeks.org/cypress-tutorial/', price: 'Free', createdAt: new Date().toISOString() },
     
     // Cyber Security Courses
-    { id: 'ethical-hacking', title: 'Ethical Hacking Fundamentals', description: 'Learn ethical hacking techniques and cybersecurity best practices.', instructor: 'GeeksforGeeks', duration: '12 weeks', level: 'intermediate', category: 'cyber-security', imageUrl: '/images/security-course.jpg', courseUrl: 'https://www.geeksforgeeks.org/what-is-ethical-hacking/', price: 'Free', createdAt: new Date().toISOString() },
-    { id: 'network-security', title: 'Network Security Essentials', description: 'Understand network security protocols, firewalls, and intrusion detection.', instructor: 'GeeksforGeeks', duration: '10 weeks', level: 'intermediate', category: 'cyber-security', imageUrl: '/images/network-course.jpg', courseUrl: 'https://www.geeksforgeeks.org/network-security/', price: 'Free', createdAt: new Date().toISOString() },
+    { id: 'ethical-hacking', title: 'Ethical Hacking Fundamentals', description: 'Learn ethical hacking techniques and cybersecurity best practices.', instructor: 'GeeksforGeeks', duration: '12 weeks', level: 'intermediate', category: 'cyber-security', icon: 'security', courseUrl: 'https://www.geeksforgeeks.org/what-is-ethical-hacking/', price: 'Free', createdAt: new Date().toISOString() },
+    { id: 'network-security', title: 'Network Security Essentials', description: 'Understand network security protocols, firewalls, and intrusion detection.', instructor: 'GeeksforGeeks', duration: '10 weeks', level: 'intermediate', category: 'cyber-security', icon: 'security', courseUrl: 'https://www.geeksforgeeks.org/network-security/', price: 'Free', createdAt: new Date().toISOString() },
     
     // DevOps Courses
-    { id: 'docker', title: 'Docker Containerization', description: 'Learn containerization with Docker for application deployment and scaling.', instructor: 'GeeksforGeeks', duration: '8 weeks', level: 'intermediate', category: 'devops', imageUrl: '/images/docker-course.jpg', courseUrl: 'https://www.geeksforgeeks.org/docker-tutorial/', price: 'Free', createdAt: new Date().toISOString() },
-    { id: 'kubernetes', title: 'Kubernetes Orchestration', description: 'Master Kubernetes for container orchestration and microservices management.', instructor: 'GeeksforGeeks', duration: '10 weeks', level: 'advanced', category: 'devops', imageUrl: '/images/k8s-course.jpg', courseUrl: 'https://www.geeksforgeeks.org/kubernetes/', price: 'Free', createdAt: new Date().toISOString() },
-    { id: 'aws', title: 'AWS Cloud Fundamentals', description: 'Learn Amazon Web Services cloud computing platform and services.', instructor: 'GeeksforGeeks', duration: '12 weeks', level: 'beginner', category: 'devops', imageUrl: '/images/aws-course.jpg', courseUrl: 'https://www.geeksforgeeks.org/amazon-web-services-aws-tutorial/', price: 'Free', createdAt: new Date().toISOString() },
+    { id: 'docker', title: 'Docker Containerization', description: 'Learn containerization with Docker for application deployment and scaling.', instructor: 'GeeksforGeeks', duration: '8 weeks', level: 'intermediate', category: 'devops', icon: 'docker', courseUrl: 'https://www.geeksforgeeks.org/docker-tutorial/', price: 'Free', createdAt: new Date().toISOString() },
+    { id: 'kubernetes', title: 'Kubernetes Orchestration', description: 'Master Kubernetes for container orchestration and microservices management.', instructor: 'GeeksforGeeks', duration: '10 weeks', level: 'advanced', category: 'devops', icon: 'kubernetes', courseUrl: 'https://www.geeksforgeeks.org/kubernetes/', price: 'Free', createdAt: new Date().toISOString() },
+    { id: 'aws', title: 'AWS Cloud Fundamentals', description: 'Learn Amazon Web Services cloud computing platform and services.', instructor: 'GeeksforGeeks', duration: '12 weeks', level: 'beginner', category: 'devops', icon: 'aws', courseUrl: 'https://www.geeksforgeeks.org/amazon-web-services-aws-tutorial/', price: 'Free', createdAt: new Date().toISOString() },
     
     // SAP Courses
-    { id: 'sap-basics', title: 'SAP Fundamentals', description: 'Introduction to SAP ERP system and business processes.', instructor: 'GeeksforGeeks', duration: '8 weeks', level: 'beginner', category: 'sap', imageUrl: '/images/sap-course.jpg', courseUrl: 'https://www.geeksforgeeks.org/what-is-sap/', price: 'Free', createdAt: new Date().toISOString() },
-    { id: 'sap-abap', title: 'SAP ABAP Programming', description: 'Learn SAP ABAP programming language for custom development.', instructor: 'GeeksforGeeks', duration: '12 weeks', level: 'intermediate', category: 'sap', imageUrl: '/images/abap-course.jpg', courseUrl: 'https://www.geeksforgeeks.org/introduction-to-abap/', price: 'Free', createdAt: new Date().toISOString() }
+    { id: 'sap-basics', title: 'SAP Fundamentals', description: 'Introduction to SAP ERP system and business processes.', instructor: 'GeeksforGeeks', duration: '8 weeks', level: 'beginner', category: 'sap', icon: 'sap', courseUrl: 'https://www.geeksforgeeks.org/what-is-sap/', price: 'Free', createdAt: new Date().toISOString() },
+    { id: 'sap-abap', title: 'SAP ABAP Programming', description: 'Learn SAP ABAP programming language for custom development.', instructor: 'GeeksforGeeks', duration: '12 weeks', level: 'intermediate', category: 'sap', icon: 'sap', courseUrl: 'https://www.geeksforgeeks.org/introduction-to-abap/', price: 'Free', createdAt: new Date().toISOString() }
   ];
 
   const filteredCourses = freeCourses.filter((course) => {
@@ -99,10 +101,32 @@ export default function Courses() {
 
   const getLevelColor = (level: string) => {
     switch (level) {
-      case 'beginner': return 'bg-green-100 text-green-800';
-      case 'intermediate': return 'bg-yellow-100 text-yellow-800';
-      case 'advanced': return 'bg-red-100 text-red-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'beginner': return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300';
+      case 'intermediate': return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300';
+      case 'advanced': return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300';
+      default: return 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300';
+    }
+  };
+
+  const getCourseIcon = (iconType: string) => {
+    switch (iconType) {
+      case 'html': return <SiHtml5 className="w-8 h-8 text-orange-500" />;
+      case 'javascript': return <FaJs className="w-8 h-8 text-yellow-500" />;
+      case 'react': return <FaReact className="w-8 h-8 text-blue-500" />;
+      case 'angular': return <FaAngular className="w-8 h-8 text-red-500" />;
+      case 'python': return <FaPython className="w-8 h-8 text-blue-600" />;
+      case 'java': return <FaJava className="w-8 h-8 text-red-600" />;
+      case 'nodejs': return <Terminal className="w-8 h-8 text-green-600" />;
+      case 'django': return <SiDjango className="w-8 h-8 text-green-700" />;
+      case 'selenium': return <SiSelenium className="w-8 h-8 text-green-500" />;
+      case 'jira': return <SiJira className="w-8 h-8 text-blue-600" />;
+      case 'cypress': return <SiCypress className="w-8 h-8 text-gray-700" />;
+      case 'security': return <Shield className="w-8 h-8 text-red-600" />;
+      case 'docker': return <FaDocker className="w-8 h-8 text-blue-500" />;
+      case 'kubernetes': return <SiKubernetes className="w-8 h-8 text-blue-600" />;
+      case 'aws': return <FaAws className="w-8 h-8 text-orange-500" />;
+      case 'sap': return <SiSap className="w-8 h-8 text-blue-700" />;
+      default: return <BookOpen className="w-8 h-8 text-blue-600" />;
     }
   };
 
@@ -121,21 +145,21 @@ export default function Courses() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <Navbar />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">Learn New Skills</h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Learn New Skills</h1>
+          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
             Enhance your career prospects with our curated collection of courses. 
             From programming fundamentals to advanced technologies.
           </p>
         </div>
 
         {/* Search Section */}
-        <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 mb-8">
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1">
               <div className="relative">
@@ -174,11 +198,11 @@ export default function Courses() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredCourses.length === 0 ? (
             <div className="col-span-full">
-              <Card>
+              <Card className="bg-white dark:bg-gray-800">
                 <CardContent className="p-8 text-center">
                   <BookOpen className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">No courses found</h3>
-                  <p className="text-gray-600">
+                  <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">No courses found</h3>
+                  <p className="text-gray-600 dark:text-gray-300">
                     Try adjusting your search criteria or check back later for new courses.
                   </p>
                 </CardContent>
@@ -188,18 +212,18 @@ export default function Courses() {
             filteredCourses.map((course: any) => (
               <Card 
                 key={course.id} 
-                className="hover:shadow-lg transition-shadow cursor-pointer overflow-hidden"
+                className="hover:shadow-lg transition-shadow cursor-pointer overflow-hidden bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700"
                 onClick={() => handleCourseClick(course)}
                 data-testid={`course-card-${course.id}`}
               >
                 {/* Course Image */}
-                <div className="h-48 bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
-                  <BookOpen className="w-16 h-16 text-white" />
+                <div className="h-48 bg-gradient-to-r from-blue-500 to-purple-600 dark:from-blue-600 dark:to-purple-700 flex items-center justify-center">
+                  {course.icon ? getCourseIcon(course.icon) : <BookOpen className="w-16 h-16 text-white" />}
                 </div>
                 
                 <CardHeader>
                   <div className="flex items-start justify-between mb-2">
-                    <CardTitle className="text-lg font-semibold line-clamp-2">
+                    <CardTitle className="text-lg font-semibold line-clamp-2 text-gray-900 dark:text-white">
                       {course.title}
                     </CardTitle>
                     <Badge className={`${getLevelColor(course.level || 'beginner')} text-xs`}>
@@ -207,7 +231,7 @@ export default function Courses() {
                     </Badge>
                   </div>
                   
-                  <CardDescription className="line-clamp-3">
+                  <CardDescription className="line-clamp-3 text-gray-600 dark:text-gray-300">
                     {course.description}
                   </CardDescription>
                 </CardHeader>
@@ -216,7 +240,7 @@ export default function Courses() {
                   <div className="space-y-3">
                     {/* Instructor */}
                     {course.instructor && (
-                      <div className="flex items-center text-sm text-gray-600">
+                      <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
                         <User className="w-4 h-4 mr-2" />
                         <span>{course.instructor}</span>
                       </div>
@@ -224,7 +248,7 @@ export default function Courses() {
                     
                     {/* Duration */}
                     {course.duration && (
-                      <div className="flex items-center text-sm text-gray-600">
+                      <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
                         <Clock className="w-4 h-4 mr-2" />
                         <span>{course.duration}</span>
                       </div>
@@ -240,12 +264,12 @@ export default function Courses() {
                           />
                         ))}
                       </div>
-                      <span className="text-sm text-gray-600 ml-2">(4.8)</span>
+                      <span className="text-sm text-gray-600 dark:text-gray-300 ml-2">(4.8)</span>
                     </div>
                     
                     {/* Price and Action */}
                     <div className="flex items-center justify-between pt-4">
-                      <div className="text-lg font-bold text-green-600">
+                      <div className="text-lg font-bold text-green-600 dark:text-green-400">
                         {course.price}
                       </div>
                       <Button 
@@ -273,7 +297,7 @@ export default function Courses() {
             <h2 className="text-2xl font-bold text-gray-900 mb-6">Most Popular Courses</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Featured Courses */}
-              <Card className="bg-gradient-to-r from-blue-500 to-purple-600 text-white">
+              <Card className="bg-gradient-to-r from-blue-500 to-purple-600 dark:from-blue-600 dark:to-purple-700 text-white border-0">
                 <CardHeader>
                   <CardTitle className="text-white">HTML & CSS Mastery</CardTitle>
                   <CardDescription className="text-blue-100">
@@ -294,7 +318,7 @@ export default function Courses() {
                 </CardContent>
               </Card>
               
-              <Card className="bg-gradient-to-r from-green-500 to-blue-500 text-white">
+              <Card className="bg-gradient-to-r from-green-500 to-blue-500 dark:from-green-600 dark:to-blue-600 text-white border-0">
                 <CardHeader>
                   <CardTitle className="text-white">Python Programming</CardTitle>
                   <CardDescription className="text-green-100">
