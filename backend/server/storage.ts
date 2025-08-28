@@ -18,8 +18,8 @@ export class MemStorage {
     this.initializeSampleData();
   }
 
-  async initializeSampleData() {
-    // Sample companies
+  initializeSampleData() {
+    // Sample company
     const accenture: Company = {
       id: "accenture-id",
       name: "Accenture",
